@@ -1,0 +1,160 @@
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #d6f1f6a2; /* dark mode default */
+  color: rgba(255, 255, 255, 0.87);
+}
+
+/* Container for the whole form */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 500px; /* prevent overly wide forms */
+    margin: 3% auto;
+    background-color: #f0f8ff; /* lighter azure */
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.header .text {
+    color: rgb(53, 2, 240);
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.header .underline {
+    width: 50px;
+    height: 5px;
+    background-color: rgb(53, 2, 240);
+    border-radius: 5px;
+}
+
+/* Input fields */
+.inputs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #eaeaea;
+    border-radius: 8px;
+}
+
+.input h4 {
+    color: rgb(53, 2, 240);
+    margin: 0;
+    font-size: 1rem;
+    min-width: 80px;
+}
+
+.input input {
+    flex: 1;
+    padding: 0.4rem 0.6rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Forgot password */
+.forgot-password {
+    text-align: right;
+    width: 100%;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.forgot-password span {
+    color: rgb(53, 2, 240);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Buttons */
+.submit-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.submit_form,
+.submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.6rem 1.5rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.submit_form {
+    background-color: rgb(11, 131, 61);
+    color: #fff;
+}
+
+.submit_form:hover {
+    transform: scale(1.05);
+}
+
+.submit {
+    background-color: rgb(53, 2, 240);
+    color: #fff;
+}
+
+.submit:hover {
+    transform: scale(1.05);
+}
+
+/* Disabled / gray button */
+.gray {
+    background: #e0e0e0;
+    color: #777;
+    cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .input h4 {
+        min-width: 60px;
+        font-size: 0.9rem;
+    }
+
+    .header .text {
+        font-size: 1.5rem;
+    }
+
+    .submit,
+    .submit_form {
+        width: 100%;
+    }
+}

@@ -1,0 +1,27 @@
+/* --- ColorFilters.css --- */
+
+/* Styles for the main control container (replaces Tailwind classes) */
+.color_blindness_controls {
+    margin-bottom: 1rem; /* mb-4 */
+    padding: 0.75rem; /* p-3 */
+    border: 1px solid #e5e7eb; /* border */
+    border-radius: 0.5rem; /* rounded */
+    background-color: #f9fafb; /* bg-gray-50 */
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Styles for the label (replaces Tailwind classes) */
+.select-label {
+    margin-right: 0.5rem; /* mr-2 */
+    font-weight: 500;
+}
+
+/* Styles for the select input (replaces Tailwind classes) */
+.select-input {
+    padding: 0.5rem; /* p-2 */
+    border: 1px solid #d1d5db; /* border */
+    border-radius: 0.5rem; /* rounded */
+    min-width: 150px;
+}
