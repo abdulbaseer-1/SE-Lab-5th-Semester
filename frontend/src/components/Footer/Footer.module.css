@@ -1,0 +1,66 @@
+.footer {
+    border-top: 2px solid white; 
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #4ec9fe86;
+    margin-top: 5px;
+}
+.footer p{
+    color: white;
+}
+.footer .to_center{
+    align-content: center;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    text-align: center;
+}
+.footer .contact_grid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+    grid-template-rows: repeat(3, minmax(100px, 1fr));
+    place-items: center;
+
+    grid-template-areas: 
+    "s a"
+    "s b"
+    "s c";
+}
+.footer .contact_grid > div{
+    /* padding: 2%; */
+}
+.footer .website_summary {
+    grid-area: s;
+    color: white;
+    font-size: large;
+}
+
+.footer .contact_1 {
+    grid-area: a;
+}
+
+
+.footer .contact_2 {
+    grid-area: b;
+}
+.footer .contact_3 {
+    grid-area: c;
+}
+
+.footer a{
+    text-decoration: none;
+    color: rgb(24, 1, 67);
+}
+
+.footer .contact_1 > a > img,
+.footer .contact_2 > a > img,
+.footer .contact_3 > a > img {
+    width: 15%;
+    margin-bottom: -25px;
+}
+
+.footer img:hover{
+    transform: scale(1.1);
+}

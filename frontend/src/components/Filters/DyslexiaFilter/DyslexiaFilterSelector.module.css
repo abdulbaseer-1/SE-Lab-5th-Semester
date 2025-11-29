@@ -1,0 +1,35 @@
+/* --- ControlPanel.css --- */
+
+/* Base container for all control groups (replaces mb-4, p-3, border, rounded, bg-gray-50) */
+.control_group {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db; /* Light gray border */
+    border-radius: 0.5rem;
+    background-color: #f9fafb; /* Very light gray background */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%; /* Ensure it spans the container */
+    max-width: 600px; /* Optional: cap width for better layout */
+}
+
+/* Styles for labels containing inputs (replaces ml-4 and mr-2) */
+.control-label {
+    margin-right: 1.5rem; 
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Keep label and input on one line */
+}
+
+/* Base styles for select/range inputs */
+.control-input {
+    margin-left: 0.5rem;
+}
+
+/* Specific styling for the range input for better visibility */
+.control-input[type="range"] {
+    min-width: 150px;
+    height: 1.5rem;
+}

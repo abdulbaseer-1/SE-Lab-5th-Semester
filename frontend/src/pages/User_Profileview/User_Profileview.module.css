@@ -1,0 +1,7 @@
+.contentBody {
+    align-self: center;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: fit-to-parent;
+  }
+    

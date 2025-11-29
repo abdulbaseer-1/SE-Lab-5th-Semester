@@ -1,0 +1,200 @@
+/* -----------------------------------------------------------
+    ROOT LAYOUT (LiveViewer)
+------------------------------------------------------------ */
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+
+  /* Clean background */
+  background: #f7f7f9;
+
+  font-family: "Inter", system-ui, sans-serif;
+  color: #1e293b; /* Darker primary text color */
+}
+
+/* -----------------------------------------------------------
+    LEFT STREAM SECTION
+------------------------------------------------------------ */
+.streamContainer,
+.placeholder {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: auto;
+  padding: 1.5rem;
+  
+  /* Solid background for clean look */
+  background: #ffffff;
+}
+
+.placeholder p {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #64748b;
+  text-align: center;
+  padding: 2rem;
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+  background: #f1f5f9;
+}
+
+.streamImage {
+  max-width: 100%;
+  height: auto;
+
+  /* Enhanced, cleaner shadow */
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08), 0 0 0 1px #e2e8f0;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* -----------------------------------------------------------
+    RIGHT CONTROL PANEL (Slimmer and Polished)
+------------------------------------------------------------ */
+.controlpanel {
+  width: 300px; /* SLIMMER: Reduced from 340px */
+  min-width: 300px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+
+  padding: 1.6rem; /* Increased vertical padding for air */
+
+  background: #ffffff;
+  border-left: 1px solid #e2e8f0;
+  
+  /* Subtle shadow for depth */
+  box-shadow: -2px 0 10px rgba(0,0,0,0.05);
+
+  overflow-y: auto;
+}
+
+/* -----------------------------------------------------------
+    SECTION TITLES
+------------------------------------------------------------ */
+.sectionTitle {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em; /* Tighter letter spacing */
+  
+  color: #64748b; /* Subtle, professional gray */
+  text-transform: uppercase;
+  
+  /* Simple divider */
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 8px;
+  margin-bottom: -0.2rem; /* Pull up closer to content */
+}
+
+/* -----------------------------------------------------------
+    CONTROL GROUP “Cards” (Cleaner Look)
+------------------------------------------------------------ */
+.controlGroup {
+  background: #f8fafc; /* Very light background for contrast */
+  border-radius: 10px; /* Slightly softer corners */
+
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+
+  padding: 1.1rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.controlGroup:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-color: #cbd5e1;
+}
+
+/* Labels inside groups */
+.controlLabel {
+  font-size: 0.95rem; /* Slightly larger text */
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space out elements */
+  gap: 0.4rem;
+
+  color: #334155;
+}
+
+.controlLabel input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2f6fed;
+}
+
+.controlLabel input[type="range"] {
+    flex-grow: 1;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.intensityDisplay {
+  font-size: 0.85rem;
+  color: #64748b;
+  min-width: 45px; /* Ensure px value doesn't jump */
+  text-align: right;
+}
+
+/* Hint when stream isn’t active */
+.controlHint {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #94a3b8;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+/* Scrollbar Cleanup */
+.controlpanel::-webkit-scrollbar {
+  width: 6px; /* Slimmer scrollbar */
+}
+.controlpanel::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 12px;
+}
+.controlpanel::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* -----------------------------------------------------------
+    RESPONSIVE
+------------------------------------------------------------ */
+@media (max-width: 1050px) {
+  .controlpanel {
+    width: 280px; /* Slightly smaller panel on medium screens */
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 820px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .controlpanel {
+    width: 100%;
+    min-width: unset;
+
+    max-height: 40vh; /* Reduced max height */
+    border-left: none;
+    border-top: 1px solid #e2e8f0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  }
+
+  .streamContainer {
+    max-height: 60vh;
+  }
+}

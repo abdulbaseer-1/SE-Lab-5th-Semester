@@ -1,0 +1,32 @@
+
+/* -----------------------------
+   MAIN LIVE VIEWER WRAPPER
+------------------------------ */
+.viewerWrapper {
+  width: 100%;
+  height: calc(100vh - 120px); /* fills remaining space under the title */
+  background: #fff;
+
+  border-radius: 12px;
+  overflow: hidden;
+
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.06);
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Make sure parent flex containers don't collapse */
+.viewerWrapper > * {
+  flex: 1;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .viewerWrapper {
+    height: calc(100vh - 150px);
+    border-radius: 10px;
+  }
+}
