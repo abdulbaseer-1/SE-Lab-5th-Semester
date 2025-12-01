@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './Create_Admin.module.css';
+import Header from "../../components/Header/Header"
+import Footer from "../../components/Footer/Footer";
+import Content from "../../components/content/Content";
 
 const CreateAdmin = () => {
     const [formData, setFormData] = useState({
@@ -37,7 +40,7 @@ const CreateAdmin = () => {
         setMessage('');
 
         try {
-            const response = await axios.post('https://backend-two-henna-56.vercel.app/api/admins/createAdmin',
+            const response = await axios.post('/api/admins/createAdmin',
                 { CNIC, confirmPassword },
                 {
                     headers: {
@@ -65,49 +68,55 @@ const CreateAdmin = () => {
     };
 
     return (
-        <div className={styles.container}>
-            <h2>Create Admin</h2>
-            <form onSubmit={handleCreateAdmin}>
-                <div className={styles.formGroup}>
-                    <label htmlFor="CNIC">CNIC</label>
-                    <input
-                        type="text"
-                        id="CNIC"
-                        name="CNIC"
-                        value={formData.CNIC}
-                        onChange={handleChange}
-                        placeholder="Enter 13-digit CNIC"
-                        maxLength={13}
-                    />
-                </div>
-
-                <div className={styles.formGroup}>
-                    <label htmlFor="confirmPassword">Confirm Your Password</label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        placeholder="Enter your current password"
-                    />
-                </div>
-
-                {message && (
-                    <div className={`${styles.message} ${message.includes('successfully') ? styles.success : styles.error}`}>
-                        {message}
+        <>
+        <Header/>
+        <Content>
+            <div className={styles.container}>
+                <h2>Create Admin</h2>
+                <form onSubmit={handleCreateAdmin}>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="CNIC">CNIC</label>
+                        <input
+                            type="text"
+                            id="CNIC"
+                            name="CNIC"
+                            value={formData.CNIC}
+                            onChange={handleChange}
+                            placeholder="Enter 13-digit CNIC"
+                            maxLength={13}
+                        />
                     </div>
-                )}
 
-                <button 
-                    type="submit" 
-                    className={styles.submitButton}
-                    disabled={isLoading}
-                >
-                    {isLoading ? 'Creating...' : 'Create Admin'}
-                </button>
-            </form>
-        </div>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="confirmPassword">Confirm Your Password</label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            placeholder="Enter your current password"
+                        />
+                    </div>
+
+                    {message && (
+                        <div className={`${styles.message} ${message.includes('successfully') ? styles.success : styles.error}`}>
+                            {message}
+                        </div>
+                    )}
+
+                    <button 
+                        type="submit" 
+                        className={styles.submitButton}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Creating...' : 'Create Admin'}
+                    </button>
+                </form>
+            </div>
+        </Content>
+        <Footer/>
+        </>
     );
 };
 
