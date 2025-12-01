@@ -3,6 +3,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const isProduction = process.env.NODE_ENV === "production";
 
 const sessionStore = MongoStore.create({
     mongoUrl: MONGODB_URI,
@@ -26,9 +27,9 @@ const sessionConfig = {
     store: sessionStore,
     cookie: {
         httpOnly: true,     // Security best practice
-        secure: true,       // Always true for HTTPS
+        secure: isProduction,       // Always true for HTTPS
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        sameSite: 'none',   // Required for cross-site cookies
+        sameSite: isProduction ? 'none':'lax',   // Required for cross-site cookies
         path: '/'           // Explicitly set cookie path
     },
     name: 'sid',            // Changed to be less obvious

@@ -4,7 +4,7 @@ import Content from "../../components/content/Content";
 import Footer from "../../components/Footer/Footer";
 import student1 from "../../assets/ContactUs/Student-1.jpeg";
 import student2 from "../../assets/ContactUs/Student-2.jpeg";
-import student3 from "../../assets/ContactUs/Student-3.jpg";
+import student3 from "../../assets/ContactUs/Student-3.jpeg";
 import github_logo from "../../assets/icons/github.png";
 
 function ContactUs() {

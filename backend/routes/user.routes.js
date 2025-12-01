@@ -75,6 +75,7 @@ router.get('/:id', userController.getUser);
 
 // Create user API
 router.post('/', (req, res, next) => {
+  console.log("inside ceate user! : " + req);
   upload(req, res, (err) => {
     if (err) {
       console.error('Multer error:', err);

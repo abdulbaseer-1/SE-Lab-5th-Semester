@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './Change_Password.module.css';  // Corrected import for CSS Module
+import Header from "../../components/Header/Header"
+import Footer from "../../components/Footer/Footer";
+import Content from "../../components/content/Content";
 
 const ChangePassword = () => {
   const [action, setAction] = useState("Change Password");
@@ -22,7 +25,7 @@ const ChangePassword = () => {
 
     try {
       const response = await axios.put(
-        'https://backend-two-henna-56.vercel.app/api/users/change-password',
+        '/api/users/change-password',
         { previousPassword, newPassword, confirmPassword },
         { withCredentials: true }
       );
@@ -43,47 +46,53 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.text}>{action}</div>
-        <div className={styles.underline}></div>
+    <>
+    <Header/>
+    <Content>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <div className={styles.text}>{action}</div>
+          <div className={styles.underline}></div>
+        </div>
+        <div className={styles.inputs}>
+          <div className={styles.input}>
+            <h4>Previous Password</h4>
+            <input
+              type="password"
+              placeholder="Previous Password..."
+              value={previousPassword}
+              onChange={(e) => setPreviousPassword(e.target.value)}
+            />
+          </div>
+          <div className={styles.input}>
+            <h4>New Password</h4>
+            <input
+              type="password"
+              placeholder="New Password..."
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+          </div>
+          <div className={styles.input}>
+            <h4>Confirm Password</h4>
+            <input
+              type="password"
+              placeholder="Confirm Password..."
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+        </div>
+        {message && <div className={styles.message}>{message}</div>}
+        <div className={styles.submitContainer}>
+          <div className={styles.changePassword} onClick={handleChangePassword}>
+            Change Password
+          </div>
+        </div>
       </div>
-      <div className={styles.inputs}>
-        <div className={styles.input}>
-          <h4>Previous Password</h4>
-          <input
-            type="password"
-            placeholder="Previous Password..."
-            value={previousPassword}
-            onChange={(e) => setPreviousPassword(e.target.value)}
-          />
-        </div>
-        <div className={styles.input}>
-          <h4>New Password</h4>
-          <input
-            type="password"
-            placeholder="New Password..."
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-        </div>
-        <div className={styles.input}>
-          <h4>Confirm Password</h4>
-          <input
-            type="password"
-            placeholder="Confirm Password..."
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-      </div>
-      {message && <div className={styles.message}>{message}</div>}
-      <div className={styles.submitContainer}>
-        <div className={styles.changePassword} onClick={handleChangePassword}>
-          Change Password
-        </div>
-      </div>
-    </div>
+    </Content>
+    <Footer/>
+    </>
   );
 };
 

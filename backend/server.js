@@ -56,8 +56,8 @@ app.use((err, req, res, next) => {
 // ---------- HTTPS Server ----------
 const server = https.createServer(
   {
-    key: fs.readFileSync(path.join(__dirname, "../config/certificates/key.pem")),
-    cert: fs.readFileSync(path.join(__dirname, "../config/certificates/cert.pem")),
+    key: fs.readFileSync(path.join(__dirname, "./config/certificates/key.pem")),
+    cert: fs.readFileSync(path.join(__dirname, "./config/certificates/cert.pem")),
   },
   app
 );
