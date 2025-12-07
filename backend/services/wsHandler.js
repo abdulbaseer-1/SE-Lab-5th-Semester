@@ -8,10 +8,10 @@ import {
 
 /**
  * Initialize WebSocket message handling
- * @param {WebSocketServer} wss
+ * @param {WebSocketServer} ws
  */
-export function wsHandler(wss) {
-  wss.on("connection", (ws) => {
+export function wsHandler(ws) {
+  ws.on("connection", (ws) => {
     console.log("🔌 WebSocket connected");
 
     ws.on("message", async (msg) => {

@@ -1,19 +1,14 @@
 import express from "express";
-import https from "https";
-import fs from "fs";
+import http from "http";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import { WebSocketServer } from "ws";
 
 import cors from "./middleware/CORS.js";
-import sessionMiddleware from "./middleware/Session.js";
 import logger from "./utils/logger.js";
 import { wsHandler } from "./services/wsHandler.js";
 
-import userRoutes from "./routes/user.routes.js";
-import adminRoutes from "./routes/admin.routes.js";
 import playwright_routes from "./routes/playwright_routes.js";
 
 // ---------- Paths ----------
@@ -29,13 +24,10 @@ const app = express();
 // ---------- Middleware ----------
 app.use(logger);
 app.use(cors);
-app.use(sessionMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ---------- Routes ----------
-app.use("/api/users", userRoutes);
-app.use("/api/admin", adminRoutes);
 app.use("/api/playwright", playwright_routes);
 
 app.get("/", (req, res) => {
@@ -54,27 +46,21 @@ app.use((err, req, res, next) => {
 });
 
 // ---------- HTTPS Server ----------
-const server = https.createServer(
-  {
-    key: fs.readFileSync(path.join(__dirname, "./config/certificates/key.pem")),
-    cert: fs.readFileSync(path.join(__dirname, "./config/certificates/cert.pem")),
-  },
-  app
-);
+const server = http.createServer(app);
 
 // ---------- WebSocket Server (WSS) ----------
-const wss = new WebSocketServer({ server });
-wsHandler(wss); // Pass your handler function
+const ws = new WebSocketServer({ server });
+wsHandler(ws); // Pass your handler function
 
 // ---------- MongoDB + Start Server ----------
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("Connected to MongoDB");
+// mongoose
+//   .connect(process.env.MONGO_URI)
+//   .then(() => {
+//     console.log("Connected to MongoDB");
 
     server.listen(PORT, () => {
-      console.log(`🔧 HTTPS + WSS server running on port ${PORT}`);
-      console.log(`Frontend should connect via: wss://localhost:${PORT}`);
+      console.log(`HTTP + WS server running on port ${PORT}`);
+      console.log(`Frontend should connect via: ws://localhost:${PORT}`);
     });
-  })
-  .catch((error) => console.error("Connection failed:", error));
+  // })
+  // .catch((error) => console.error("Connection failed:", error));
