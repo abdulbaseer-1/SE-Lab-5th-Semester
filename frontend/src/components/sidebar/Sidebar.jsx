@@ -12,7 +12,7 @@ function Admin_Sidebar({ className }) {
             {role === "admin" && <Link to="/Closed_Cases">Closed Cases</Link>}
             {role === "admin" && <Link to="/Ongoing_Investigations">Ongoing Investigations</Link>}
             <Link to="/Settings">Settings</Link>
-            <Link to="/Contact_Us">Contact us</Link>
+            <Link to="/Contact_Us">About us</Link>
         </div>
     );
 }

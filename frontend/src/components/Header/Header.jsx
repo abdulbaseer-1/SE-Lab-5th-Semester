@@ -11,7 +11,7 @@ function Header({className}) {
     return(
         <div className={`${header_style.header} ${className}`}>
             <a href="/Home"><img src={law_scales} alt="logo image" className={header_style.banner_image_logo}/></a>
-            <h2 className={header_style.banner_title}>Crime Report</h2>
+            <h2 className={header_style.banner_title}>Accessibility Simulator</h2>
             {/* <img src={trailing_dove} alt="trailing dove" className={header_style.banner_image_trailing_dove}/> */}
             {(notification_count === 0) ? (
             <a href="/Notifications" className={header_style.banner_image_notification_anchor}><img src={notification_logo} alt="bell icon" className={header_style.banner_image_notification}/></a>
