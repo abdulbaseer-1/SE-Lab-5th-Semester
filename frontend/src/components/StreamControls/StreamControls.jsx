@@ -31,7 +31,7 @@ export function useStreamControls({
 
     setLoading(true);
 
-    wsRef.current = new WebSocket(`wss://${HOST}`);
+    wsRef.current = new WebSocket(`ws://${HOST}`);
 
     wsRef.current.onopen = () => {
       console.log("✅ Connected to backend");
