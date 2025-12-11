@@ -1,6 +1,11 @@
 # 🌐 Accessibility Simulator Web Application
 
-**Developer:** Abdul Baseer (22pwbcs0913)
+**Developers:** 
+Abdul Baseer (22pwbcs0913)
+Saad Abdullah (23pwbcs1055)
+Muhammad Mohsin (23pwbcs)
+Hooria Altaf (23pwbcs)
+
 **Course:** Software Engineering – Semester Project
 
 ---
