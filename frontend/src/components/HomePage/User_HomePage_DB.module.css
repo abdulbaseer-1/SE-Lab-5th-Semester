@@ -7,7 +7,7 @@
   height: calc(100vh - 120px); /* fills remaining space under the title */
   background: #fff;
 
-  border-radius: 12px;
+  /* border-radius: 12px; */
   overflow: hidden;
 
   box-shadow: 0 3px 12px rgba(0,0,0,0.08);
