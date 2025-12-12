@@ -6,61 +6,79 @@
     text-align: center;
     background-color: #4ec9fe86;
     margin-top: 5px;
+    padding: 20px 0;
 }
-.footer p{
+
+.footer p {
     color: white;
 }
-.footer .to_center{
-    align-content: center;
-    align-items: center;
-    align-self: center;
+
+.footer .to_center {
+    display: flex;
     justify-content: center;
+}
+
+.footer .contact_grid {
+    /* Change from grid to a horizontal flex layout */
+    width: 100%;
+    max-width: 1100px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Left summary stays on left */
+.footer .website_summary {
+    max-width: 400px;
     text-align: center;
 }
-.footer .contact_grid{
-    display: grid;
-    grid-template-columns: repeat(2, minmax(100px, 1fr));
-    grid-template-rows: repeat(3, minmax(100px, 1fr));
-    place-items: center;
 
-    grid-template-areas: 
-    "s a"
-    "s b"
-    "s c";
-}
-.footer .contact_grid > div{
-    /* padding: 2%; */
-}
-.footer .website_summary {
-    grid-area: s;
-    color: white;
-    font-size: large;
-}
-
-.footer .contact_1 {
-    grid-area: a;
-}
-
-
-.footer .contact_2 {
-    grid-area: b;
-}
+/* Icons container (3 contacts) */
+.footer .contact_1,
+.footer .contact_2,
 .footer .contact_3 {
-    grid-area: c;
+    text-align: center;
 }
 
-.footer a{
+/* Make icon + text vertical */
+.footer .contact_1 a,
+.footer .contact_2 a,
+.footer .contact_3 a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
     text-decoration: none;
     color: rgb(24, 1, 67);
 }
 
-.footer .contact_1 > a > img,
-.footer .contact_2 > a > img,
-.footer .contact_3 > a > img {
-    width: 15%;
-    margin-bottom: -25px;
+/* Icons resized nicely */
+.footer .contact_1 img,
+.footer .contact_2 img,
+.footer .contact_3 img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0;
+    transition: transform 0.2s ease;
 }
 
-.footer img:hover{
+/* Hover effect */
+.footer img:hover {
     transform: scale(1.1);
+}
+
+/* Make responsive for mobile */
+@media (max-width: 768px) {
+    .footer .contact_grid {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .footer .website_summary {
+        text-align: center;
+        max-width: 90%;
+    }
 }

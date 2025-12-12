@@ -2,7 +2,7 @@
    WRAPPER (holds button + full layout)
 ------------------------------------------------------------ */
 .wrapper {
-    position: relative;
+    position: relative  ;
     width: 100%;
     min-height: 100vh;
 
@@ -14,9 +14,8 @@
 /* -----------------------------------------------------------
    LAYOUT AREA (Sidebar + Body)
 ------------------------------------------------------------ */
-.content_area,
-.noSidebar {
-    flex: 1;
+.content_area {
+    /* flex: 1; */
     width: 100%;
 
     display: flex;
@@ -28,14 +27,12 @@
     padding: 0; /* remove padding so button sits on top cleanly */
 }
 
-.noSidebar {
-    background: rgba(255, 255, 255, 0.16);
-}
+
 
 
 /* -----------------------------------------------------------
    SIDEBAR
------------------------------------------------------------- */
+------------------------------------------------------------
 .sidebar {
     width: 230px;
     min-width: 230px;
@@ -55,7 +52,7 @@
     flex-direction: column;
     gap: 1rem;
 }
-
+ */
 
 /* -----------------------------------------------------------
    CONTENT BODY
@@ -67,7 +64,7 @@
     background: rgba(255,255,255,0.24);
     backdrop-filter: blur(22px) saturate(180%);
 
-    border-radius: 20px;
+    /*border-radius: 20px;*/
     padding: 1.6rem;
 
     border: 1px solid rgba(255,255,255,0.40);
@@ -80,7 +77,7 @@
 
 /* -----------------------------------------------------------
    HIDE BUTTON — *properly fixed*
------------------------------------------------------------- */
+------------------------------------------------------------
 .switch_button {
     position: absolute;
     top: 1rem;
@@ -102,6 +99,7 @@
     transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
 }
 
+
 .switch_button:hover {
     transform: translateY(-1px) scale(1.03);
     background: rgba(255,255,255,0.40);
@@ -111,7 +109,7 @@
 .switch_button:active {
     transform: scale(0.96);
 }
-
+ */
 
 /* -----------------------------------------------------------
    RESPONSIVE
@@ -125,12 +123,11 @@
 
 @media (max-width: 700px) {
 
-    .content_area,
-    .noSidebar {
+    .content_area {
         flex-direction: column;
     }
 
-    .sidebar {
+   /* .sidebar {
         width: calc(100% - 2rem);
         margin-left: 1rem;
     }
@@ -138,5 +135,5 @@
     .switch_button {
         left: 50%;
         transform: translateX(-50%);
-    }
+    }*/
 }

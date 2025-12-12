@@ -9,8 +9,8 @@ function Header({className}) {
     let notification_count = 0; // to take from a backend function which checks notification count
     return(
         <div className={`${header_style.header} ${className}`}>
-            <a href="/"><img src={law_scales} alt="logo image" className={header_style.banner_image_logo}/></a>
-            <h2 className={header_style.banner_title}>Crime Report</h2>
+            {<a href="/"><img src={law_scales} alt="logo image" className={header_style.banner_image_logo}/></a>}
+            <h2 className={header_style.banner_title}>Accessibility Simulator</h2>
             {/* <img src={trailing_dove} alt="trailing dove" className={header_style.banner_image_trailing_dove}/> */}
             {(notification_count === 0) ? (
             <a href="/" className={header_style.banner_image_notification_anchor}><img src={notification_logo} alt="bell icon" className={header_style.banner_image_notification}/></a>
