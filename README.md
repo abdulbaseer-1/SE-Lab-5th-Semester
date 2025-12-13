@@ -25,7 +25,6 @@ It streams a **real Playwright-controlled browser** to the frontend, simulates m
 * Color-blindness filters
 * Low-vision filters (blur, zoom, contrast)
 * Jitter cursor (motor impairment)
-* Dyslexia spacing
 * High-contrast + brightness filters
 * Multiple filters can run simultaneously
 
