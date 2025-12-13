@@ -4,8 +4,13 @@ import styles from "./LiveViewer.module.css";
 import { useJitterCursor, /*JitterCursor*/ } from "../Hooks/JitterCursor/useJitterCursor";
 import { ColourBlindFilter, ColourBlindFilterSelector } from "../Filters/ColourBlindFilter/ColorFilters";
 import { LowVisionComponent, LowVisionFilterSelector } from "../Filters/LowVisionFilter/LowVision";
-import { DyslexiaComponent, DyslexiaFilterSelector } from "../Filters/DyslexiaFilter/DyslexiaFilterSelector";
+// import { DyslexiaComponent, DyslexiaFilterSelector } from "../Filters/DyslexiaFilter/DyslexiaFilterSelector";
 import { useStreamControls, StreamControls } from "../StreamControls/StreamControls";
+import {Glaucoma, GlaucomaComponent} from "../Filters/GlaucomaFilter/Glaucoma";
+import {Cataracts, CataractsComponent} from "../Filters/Cataracts/Cataracts";
+import {MacularDegeneration, MacularDegenerationComponent} from "../Filters/MacularDegeneration/MacularDegeneration";
+import {HardOfHearing, HardOfHearingComponent} from "../Filters/Deafness(HoH)/HardofHearing";
+
 import ClickHandler from "../Hooks/MouseHandler";
 import KeyboardHandler from "../Hooks/KeyboardHandler";
 import ScanControls from "../ScanDomControls/ScanDomControls";
@@ -23,9 +28,22 @@ export default function LiveViewer(className) {
   const [colourBlindness, setColourBlindness] = useState("none");
   const [lowVision, setLowVision] = useState(false);
   const [lowVisionIntensity, setLowVisionIntensity] = useState(2);
-  const [dyslexiaEnabled, setDyslexiaEnabled] = useState(false);
-  const [dyslexiaIntensity, setDyslexiaIntensity] = useState(0);
+  // const [dyslexiaEnabled, setDyslexiaEnabled] = useState(false);
+  // const [dyslexiaIntensity, setDyslexiaIntensity] = useState(0);
   const [scrollContainer, setScrollContainer] = useState(null);
+  const [cataracts, setCataracts] = useState(false);
+  const [cataractsIntensity, setCataractsIntensity] =  useState(0);
+  const [glaucoma, setGlaucoma] = useState(false);
+  const [glaucomaIntensity, setGlaucomaIntensity] = useState(0);
+  // NEW ADVANCED SETTINGS:
+  const [glaucomaMaskSize, setGlaucomaMaskSize] = useState(60);  // % radius
+  const [glaucomaBlur, setGlaucomaBlur] = useState(6);
+
+  const [macularDegeneration, setMacularDegeneration] = useState(false);
+  const [macularDegenerationIntensity, setMacularDegenerationIntensity] = useState(0);
+  const [hardOfHearing, setHardOfHearing] = useState(false);
+  const [hardOfHearingIntensity, setHardOfHearingIntensity] = useState(0);
+
 
   const wsRef = useRef(null);
   const frameRef = useRef(null);
@@ -49,18 +67,26 @@ export default function LiveViewer(className) {
       {/* 1. LIVE STREAM (Left Side) */}
       {image ? (
         <div ref={setScrollContainer} className={styles.streamContainer}>
-          <DyslexiaFilterSelector enabled={dyslexiaEnabled} intensity={dyslexiaIntensity}>
+          {/* <DyslexiaFilterSelector enabled={dyslexiaEnabled} intensity={dyslexiaIntensity}> */}
             <ColourBlindFilterSelector type={colourBlindness}>
               <LowVisionFilterSelector enabled={lowVision} lowVisionIntensity={lowVisionIntensity}>
-                <img
-                  ref={frameRef}
-                  src={image}
-                  alt="Live Website Stream"
-                  className={styles.streamImage}
-                />
+                  <Glaucoma enabled={glaucoma} intensity={glaucomaIntensity} maskSize={glaucomaMaskSize} peripheralBlur={glaucomaBlur}>
+                    <Cataracts enabled={cataracts} intensity={cataractsIntensity}>
+                      <MacularDegeneration enabled={macularDegeneration} intensity={macularDegenerationIntensity}>
+                        <HardOfHearing  ws={wsRef.current} enabled={hardOfHearing} intensity={hardOfHearingIntensity}>
+                          <img
+                            ref={frameRef}
+                            src={image}
+                            alt="Live Website Stream"
+                            className={styles.streamImage}
+                          />
+                        </HardOfHearing>
+                      </MacularDegeneration>
+                    </ Cataracts>
+                  </Glaucoma>
               </LowVisionFilterSelector>
             </ColourBlindFilterSelector>
-          </DyslexiaFilterSelector>
+          {/* </DyslexiaFilterSelector> */}
         </div>
       ) : (
         <div className={styles.placeholder}>
@@ -120,12 +146,48 @@ export default function LiveViewer(className) {
               setLowVisionIntensity={setLowVisionIntensity}
             />
 
-            <DyslexiaComponent
+            {/* <DyslexiaComponent
               className={styles.controlGroup}
               dyslexiaEnabled={dyslexiaEnabled}
               setDyslexiaEnabled={setDyslexiaEnabled}
               dyslexiaIntensity={dyslexiaIntensity}
               setDyslexiaIntensity={setDyslexiaIntensity}
+            /> */}
+
+            <GlaucomaComponent
+            className={styles.controlGroup}
+            glaucoma={glaucoma}
+            setGlaucoma={setGlaucoma}
+            glaucomaIntensity={glaucomaIntensity}
+            setGlaucomaIntensity={setGlaucomaIntensity}
+            glaucomaMaskSize={glaucomaMaskSize}
+            setGlaucomaMaskSize={setGlaucomaMaskSize}
+            glaucomaBlur={glaucomaBlur}
+            setGlaucomaBlur={setGlaucomaBlur}
+            />
+
+            <CataractsComponent
+              className={styles.controlGroup}
+              cataracts={cataracts}
+              setCataracts={setCataracts}
+              cataractsIntensity={cataractsIntensity}
+              setCataractsIntensity={setCataractsIntensity}
+            />
+
+            <MacularDegenerationComponent
+              className={styles.controlGroup}
+              macularDegeneration={macularDegeneration}
+              setMacularDegeneration={setMacularDegeneration}
+              macularDegenerationIntensity={macularDegenerationIntensity}
+              setMacularDegenerationIntensity={setMacularDegenerationIntensity}
+            />
+
+            <HardOfHearingComponent
+              className={styles.controlGroup}
+              hardoOfHearing={hardOfHearing}
+              setHardOfHearing={setHardOfHearing}
+              hardOfHearingIntensity={hardOfHearingIntensity}
+              setHardOfHearingIntensity={setHardOfHearingIntensity}
             />
           </>
         ) : (

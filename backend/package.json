@@ -12,11 +12,13 @@
   "description": "",
   "dependencies": {
     "@axe-core/playwright": "^4.11.0",
+    "@discordjs/opus": "^0.10.0",
     "colors": "^1.4.0",
     "colours": "^0.6.0-2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "opus": "^0.0.0",
     "pdfkit": "^0.17.2",
     "playwright": "^1.57.0",
     "ws": "^8.18.3"

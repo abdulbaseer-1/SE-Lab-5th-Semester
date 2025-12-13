@@ -1,72 +1,136 @@
-/* Universal Box-Sizing Reset */
-* {
-    box-sizing: border-box;
-}
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* -------------------------------------------------
+   GLOBAL RESET & BASELINE
+-------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+html,
+body {
+  width: 100%;
+  height: 100%;
 }
 
 body {
-  margin: 0;
-  display: block;
-  /*place-items: center;*/
-  min-width: 320px;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  color: #1e293b;
+
+  /* Soft neutral background (very subtle cool tone) */
+  background: linear-gradient(
+    180deg,
+    #f8fafc 0%,
+    #f1f5f9 40%,
+    #e5e7eb 100%
+  );
+
+  overflow-x: hidden;
+}
+
+
+/* -------------------------------------------------
+   ROOT APP CONTAINER
+-------------------------------------------------- */
+#root {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* -------------------------------------------------
+   PAGE FLOW (Header → Content → Footer)
+-------------------------------------------------- */
+
+/* Ensure main app content stretches nicely */
+#root > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* Give breathing room between header and content */
+header,
+._header_2j96n_5 {
+  flex-shrink: 0;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Main content area spacing */
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+}
+
+/* Footer stays at bottom */
+footer,
+._footer_ltqk0_1 {
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------
+   MAX WIDTH & CENTERING
+-------------------------------------------------- */
+
+/* Keep layout centered on large screens */
+._wrapper_1djf5_7 {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Content area should not feel cramped */
+._content_area_1djf5_33,
+._noSidebar_1djf5_35 {
+  width: 100%;
+}
+
+/* -------------------------------------------------
+   SCROLLBAR POLISH (SUBTLE)
+-------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(30, 41, 59, 0.25);
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 41, 59, 0.4);
+}
+
+/* -------------------------------------------------
+   SELECTION & FOCUS (ACCESSIBLE & CLEAN)
+-------------------------------------------------- */
+::selection {
+  background: rgba(14, 165, 233, 0.3);
+}
+
+:focus-visible {
+  outline: 2px solid #0ea5e9;
+  outline-offset: 3px;
+}
+
+/* -------------------------------------------------
+   RESPONSIVE TWEAKS
+-------------------------------------------------- */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+
+  main {
+    padding: 1rem 0.75rem;
   }
 }

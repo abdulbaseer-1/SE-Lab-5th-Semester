@@ -3,12 +3,11 @@
   margin: 2rem;
   background: #f8f8f8;
   padding: 2rem;
-  border-radius: 1px;
-  overflow-x: hidden;
+  border-radius: 10px;
 }
 
 input {
-  width: 100%;
+  width: 400px;
   padding: 8px;
   font-size: 1rem;
 }
