@@ -1,16 +1,5 @@
-// StreamControls.jsx
+// useStreamControls.jsx
 import { useEffect } from "react";
-
-/**
- * This hook encapsulates:
- *  - WebSocket connection handling
- *  - startStream()
- *  - stopStream()
- *  - frame buffering
- *  - smooth rendering loop
- *
- * It exposes startStream + stopStream so parent components can call them.
- */
 
 const HOST = import.meta.env.VITE_BACKEND_HOST_WS;
 
@@ -24,118 +13,196 @@ export function useStreamControls({
   frameBuffer,
 }) {
 
-// START STREAM
+  // ---------------------------
+  // AUDIO INITIALIZATION
+  // ---------------------------
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  let audioBusy = false;
+
+  async function playAudioChunk(arrayBuffer) {
+    try {
+      const clone = arrayBuffer.slice(0);
+
+      const audioBuf = await audioCtx.decodeAudioData(clone);
+
+      const src = audioCtx.createBufferSource();
+      src.buffer = audioBuf;
+      src.connect(audioCtx.destination);
+      src.start(audioCtx.currentTime + 0.01);
+    } catch (err) {
+      console.warn("Audio decode failed:", err.message);
+    }
+  }
+
+  // ---------------------------
+  // START STREAM
+  // ---------------------------
   const startStream = () => {
     if (!url.trim()) return alert("Please enter a valid URL.");
-    if (wsRef.current) wsRef.current.close();
+
+    if (wsRef.current) {
+      wsRef.current.close();
+      wsRef.current = null;
+    }
 
     setLoading(true);
 
-    wsRef.current = new WebSocket(`ws://${HOST}`);
+    const ws = new WebSocket(`ws://${HOST}`);
+    ws.binaryType = "arraybuffer";
+    wsRef.current = ws;
 
-    wsRef.current.onopen = () => {
-      console.log("✅ Connected to backend");
-      wsRef.current.send(JSON.stringify({ type: "start", url }));
+    ws.onopen = () => {
+      console.log("Connected to backend");
+      ws.send(JSON.stringify({ type: "start", url }));
       setIsStreaming(true);
       setLoading(false);
     };
 
-    wsRef.current.onmessage = (msg) => {
-      const data = JSON.parse(msg.data);
+    ws.onmessage = async (msg) => {
+      const data = msg.data;
 
-      switch (data.type) {
-        case "frame":
-          frameBuffer.current.push(
-            `data:image/png;base64,${data.data}`
-          );
-          break;
+      // ---------------------------
+      // BINARY: frames or audio
+      // ---------------------------
+      if (data instanceof ArrayBuffer) {
+        const view = new DataView(data);
+        const tag = view.getUint8(0);
 
-        case "scan_result":
-          setScanResult(data.result);
-          break;
+        if (tag === 0x01) {
+          // JPEG frame
+          const blob = new Blob([data.slice(1)], { type: "image/jpeg" });
+          const url = URL.createObjectURL(blob);
 
-        case "error":
-          alert(data.message || "Error from backend");
-          stopStream();
-          break;
+          frameBuffer.current.push(url);
+        }
 
-        case "dom_update":
-          console.log("DOM Update received");
-          break;
+        else if (tag === 0x02) {
+          // Audio chunk
+          await playAudioChunk(data.slice(1));
+        }
 
-        default:
-          // console.log("Unknown message type:", data);
+        return;
+      }
+
+      // ---------------------------
+      // JSON text messages
+      // ---------------------------
+      try {
+        const parsed = JSON.parse(data);
+
+        switch (parsed.type) {
+          case "scan_result":
+            setScanResult(parsed.result);
+            break;
+
+          case "error":
+            alert(parsed.message || "Error from backend");
+            stopStream();
+            break;
+
+          case "dom":
+            // optional DOM snapshot
+            break;
+
+          default:
+            break;
+        }
+      } catch (err) {
+        console.warn("JSON parse failed:", err.message);
       }
     };
 
-    wsRef.current.onclose = () => {
-      console.log("❌ WebSocket closed");
+    ws.onclose = () => {
+      console.log("WebSocket closed");
       setIsStreaming(false);
       setLoading(false);
     };
   };
 
+  // ---------------------------
   // STOP STREAM
+  // ---------------------------
   const stopStream = () => {
     if (wsRef.current) {
-      wsRef.current.send(JSON.stringify({ type: "stop" }));
+      try {
+        wsRef.current.send(JSON.stringify({ type: "stop" }));
+      } catch (_) {}
+
       wsRef.current.close();
       wsRef.current = null;
     }
+
     setIsStreaming(false);
+
+    // Revoke used object URLs to prevent leaks
+    frameBuffer.current.forEach((url) => URL.revokeObjectURL(url));
     frameBuffer.current = [];
   };
 
-  // SMOOTH FRAME RENDER LOOP
+  // ---------------------------
+  // FRAME RENDER LOOP (0-latency)
+  // ---------------------------
   useEffect(() => {
-    const interval = setInterval(() => {
+    let active = true;
+
+    const renderLoop = () => {
+      if (!active) return;
+
       if (frameBuffer.current.length > 0) {
-        setImage(frameBuffer.current.shift());
+        const frameUrl = frameBuffer.current.shift();
+        setImage(frameUrl);
       }
-    }, 100); // ~10 FPS
-    return () => clearInterval(interval);
+
+      requestAnimationFrame(renderLoop);
+    };
+
+    requestAnimationFrame(renderLoop);
+
+    return () => {
+      active = false;
+    };
   }, []);
 
-  // Cleanup on component unmount
+  // ---------------------------
+  // CLEANUP ON UNMOUNT
+  // ---------------------------
   useEffect(() => {
     return () => stopStream();
   }, []);
 
   return { startStream, stopStream };
 }
-
-// StreamControlGroup.jsx
-
-export function StreamControls({ 
-  url,          // Current state value for the input
-  setUrl,       // Setter function for the input's onChange
-  isStreaming,  // State for showing Start/Stop
-  loading,      // State for disabling Start/showing 'Connecting...'
-  startStream,  // Handler for the Start button
-  stopStream    // Handler for the Stop button
+// StreamControls.jsx
+export function StreamControls({
+  url,
+  setUrl,
+  isStreaming,
+  loading,
+  startStream,
+  stopStream
 }) {
   return (
     <div className="flex gap-2 mb-4">
       <input
         type="text"
         value={url}
-        // Uses the setUrl prop received from LiveViewer
-        onChange={(e) => setUrl(e.target.value)} 
+        onChange={(e) => setUrl(e.target.value)}
         placeholder="Enter website URL (e.g. https://example.com)"
         className="w-[400px] p-2 border rounded"
       />
+
       {!isStreaming ? (
         <button
           onClick={startStream}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           disabled={loading}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
           {loading ? "Connecting..." : "Start"}
         </button>
       ) : (
         <button
           onClick={stopStream}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
         >
           Stop
         </button>

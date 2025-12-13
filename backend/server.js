@@ -1,3 +1,4 @@
+// server.js
 import express from "express";
 import http from "http";
 import path, { dirname } from "path";
@@ -8,10 +9,8 @@ import { WebSocketServer } from "ws";
 import cors from "./middleware/CORS.js";
 import logger from "./utils/logger.js";
 import { wsHandler } from "./services/wsHandler.js";
-
 import playwright_routes from "./routes/playwright_routes.js";
 
-// ---------- Paths ----------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -21,20 +20,20 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
-// ---------- Middleware ----------
+// Middleware
 app.use(logger);
 app.use(cors);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ---------- Routes ----------
+// Routes
 app.use("/api/playwright", playwright_routes);
 
 app.get("/", (req, res) => {
   res.send("✅ Playwright Stream Server Running");
 });
 
-// 404 handler
+// 404
 app.use(/.*/, (req, res) => {
   res.status(404).json({ error: "Page not found" });
 });
@@ -45,22 +44,25 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Internal Server Error" });
 });
 
-// ---------- HTTPS Server ----------
+// HTTP server
 const server = http.createServer(app);
 
-// ---------- WebSocket Server (WSS) ----------
-const ws = new WebSocketServer({ server });
-wsHandler(ws); // Pass your handler function
+// Single WebSocketServer for both control and audio
+const wss = new WebSocketServer({ server });
 
-// ---------- MongoDB + Start Server ----------
-// mongoose
-//   .connect(process.env.MONGO_URI)
-//   .then(() => {
-//     console.log("Connected to MongoDB");
+// Attach control connection handlers
+wsHandler(wss);
 
-    server.listen(PORT, () => {
-      console.log(`HTTP + WS server running on port ${PORT}`);
-      console.log(`Frontend should connect via: ws://localhost:${PORT}`);
-    });
-  // })
-  // .catch((error) => console.error("Connection failed:", error));
+// Also route incoming connections that are audio to audioHandler
+wss.on("connection", (ws, req) => {
+  const url = req.url || "";
+  if (url.startsWith("/audio")) {
+    handleAudioSocket(ws, req);
+  }
+});
+
+// Start server
+server.listen(PORT, () => {
+  console.log(`HTTP + WS server running on port ${PORT}`);
+  console.log(`Frontend should connect via: ws://localhost:${PORT}`);
+});
