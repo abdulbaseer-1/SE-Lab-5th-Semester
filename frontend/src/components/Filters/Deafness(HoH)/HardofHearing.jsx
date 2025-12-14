@@ -14,7 +14,12 @@ export function HardOfHearing({ enabled, intensity = 0, ws, children }) {
 
     if (!enabled) {
       // Fully enabled = no volume reduction
-      ws.send(JSON.stringify({ type: "hoh", enabled: false, gain: 1.0 }));
+      try {
+        ws.send(JSON.stringify({ type: "hoh", enabled: false, gain: 1.0 }));
+      } catch (error) {
+        console.log("error : ", error);
+      }
+
       return;
     }
 
@@ -22,7 +27,12 @@ export function HardOfHearing({ enabled, intensity = 0, ws, children }) {
     const n = Math.max(0, Math.min(10, intensity));
     const gain = n / 10;
 
+    try {
     ws.send(JSON.stringify({ type: "hoh", enabled: true, gain }));
+    } catch (error) {
+      console.log("error : ", error);
+    }
+
   }, [enabled, intensity, ws]);
 
   return <>{children}</>;
@@ -53,6 +63,7 @@ export function HardOfHearingComponent({
             type="range"
             min={0}
             max={10}
+            step="0.1"
             value={hardOfHearingIntensity}
             onChange={(e) => setHardOfHearingIntensity(Number(e.target.value))}
           />

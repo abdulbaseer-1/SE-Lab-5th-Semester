@@ -4,7 +4,6 @@ import {
   handleClick, 
   handleScroll, 
   handleKey, 
-  getPage,
   getSessionByOwnerWs 
 } from "./playwrightService.js";
 
@@ -50,13 +49,12 @@ export function wsHandler(wss) {
 
             try {
               await session.page.evaluate((g) => {
-                window.setHardOfHearingGain(g);
+                window.setHardOfHearingGain?.(g);
               }, data.gain);
             } catch (err) {
               console.error("[HOH] evaluation error:", err.message);
             }
             break;
-
 
           default:
             console.warn("❓ Unknown message type:", data.type);
