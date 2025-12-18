@@ -3,8 +3,8 @@
 **Developers:** 
 Abdul Baseer (22pwbcs0913)
 Saad Abdullah (23pwbcs1055)
-Muhammad Mohsin (23pwbcs)
-Hooria Altaf (23pwbcs)
+Muhammad Mohsin (23pwbcs0973)
+Hooria Altaf (23pwbcs0969)
 
 **Course:** Software Engineering – Semester Project
 
